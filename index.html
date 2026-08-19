@@ -148,14 +148,12 @@
       line-height: 0; /* remove bottom gap for videos */
     }
 
-    /* 오른쪽 결과물(Base) */
     .video-base {
       width: 100%;
       height: auto;
       display: block;
     }
 
-    /* 왼쪽 원본(Overlay) - clip-path로 잘라서 보여줌 */
     .video-overlay {
       position: absolute;
       top: 0;
@@ -166,7 +164,6 @@
       clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
     }
 
-    /* 투명한 조절 바 (기능 담당) */
     .compare-slider {
       position: absolute;
       top: 0;
@@ -179,7 +176,6 @@
       margin: 0;
     }
 
-    /* 눈에 보이는 세로 선 (디자인 담당) */
     .slider-line {
       position: absolute;
       top: 0;
@@ -209,7 +205,6 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
 
-    /* 라벨 (Raw / Personalized) */
     .label {
       position: absolute;
       bottom: 15px;
@@ -224,7 +219,6 @@
     .label-left { left: 15px; }
     .label-right { right: 15px; }
 
-    /* 화살표 버튼 */
     .nav-btn {
       position: absolute;
       top: 50%;
@@ -272,10 +266,29 @@
       margin-bottom: 20px;
     }
 
+    h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-top: 20px;
+      margin-bottom: 15px;
+    }
+
     .abstract-text {
       font-size: 1.05rem;
       text-align: justify;
       color: var(--text-color);
+    }
+
+    /* Math Block Accent */
+    .math-block {
+      background-color: var(--section-bg);
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      text-align: center;
+      font-size: 1.1rem;
+      overflow-x: auto;
     }
 
     /* Method & Pipeline */
@@ -332,8 +345,8 @@
       </div>
 
       <div class="affiliations">
-        <sup>1</sup>Department of Electrical Engineering, Sookmyung Women's University, Seoul, South Korea<br>
-        <sup>2</sup>School of Electrical Engineering, Korea University, Seoul, South Korea
+        <sup>1</sup>Department of Electrical Engineering, Sookmyung Women's University, Seoul, Korea<br>
+        <sup>2</sup>Department of Electrical Engineering, Korea University, Seoul, South Korea
       </div>
       
       <div class="corresponding">
@@ -354,15 +367,11 @@
       <!-- Set 1 -->
       <div class="carousel-slide active">
         <div class="compare-wrapper">
-          <!-- 오른쪽: Personalized 결과 비디오 -->
           <video class="video-base" src="./asset/personalized_1.mp4" autoplay loop muted playsinline></video>
-          <!-- 왼쪽: Raw 원본 비디오 -->
           <video class="video-overlay" src="./asset/raw_1.mp4" autoplay loop muted playsinline></video>
           
           <input type="range" min="0" max="100" value="50" class="compare-slider">
-          <div class="slider-line">
-            <div class="slider-icon"><i class="fa-solid fa-arrows-left-right"></i></div>
-          </div>
+          <div class="slider-line"><div class="slider-icon"><i class="fa-solid fa-arrows-left-right"></i></div></div>
           <div class="label label-left">Raw Video</div>
           <div class="label label-right">Personalized</div>
         </div>
@@ -371,15 +380,11 @@
       <!-- Set 2 -->
       <div class="carousel-slide">
         <div class="compare-wrapper">
-          <!-- 오른쪽: Personalized 결과 비디오 -->
           <video class="video-base" src="./asset/personalized_2.mp4" autoplay loop muted playsinline></video>
-          <!-- 왼쪽: Raw 원본 비디오 -->
           <video class="video-overlay" src="./asset/raw_2.mp4" autoplay loop muted playsinline></video>
           
           <input type="range" min="0" max="100" value="50" class="compare-slider">
-          <div class="slider-line">
-            <div class="slider-icon"><i class="fa-solid fa-arrows-left-right"></i></div>
-          </div>
+          <div class="slider-line"><div class="slider-icon"><i class="fa-solid fa-arrows-left-right"></i></div></div>
           <div class="label label-left">Raw Video</div>
           <div class="label label-right">Personalized</div>
         </div>
@@ -388,15 +393,11 @@
       <!-- Set 3 -->
       <div class="carousel-slide">
         <div class="compare-wrapper">
-          <!-- 오른쪽: Personalized 결과 비디오 -->
           <video class="video-base" src="./asset/personalized_3.mp4" autoplay loop muted playsinline></video>
-          <!-- 왼쪽: Raw 원본 비디오 -->
           <video class="video-overlay" src="./asset/raw_3.mp4" autoplay loop muted playsinline></video>
           
           <input type="range" min="0" max="100" value="50" class="compare-slider">
-          <div class="slider-line">
-            <div class="slider-icon"><i class="fa-solid fa-arrows-left-right"></i></div>
-          </div>
+          <div class="slider-line"><div class="slider-icon"><i class="fa-solid fa-arrows-left-right"></i></div></div>
           <div class="label label-left">Raw Video</div>
           <div class="label label-right">Personalized</div>
         </div>
@@ -420,11 +421,43 @@
       </div>
     </section>
 
+    <!-- !!! NEWLY ADDED: Motivation Section !!! -->
+    <section id="motivation">
+      <h2>Motivation</h2>
+      
+      <h3>3.1. Preliminary</h3>
+      <p>
+        Given a video latent of shape $F \times H \times W \times C$ encoded by a 3D VAE, DiT-based VDMs patchify it with spatial patch size $p$, yielding sequence $z_{vis} \in \mathbb{R}^{(F \cdot \frac{HW}{p^2}) \times C}$[cite: 2]. The resulting vision tokens $Z_{vis}$ are concatenated with text tokens to form an input sequence of VDMs[cite: 2]. Unlike UNet-based architectures that decouple spatial and temporal modeling through separate attention layers, DiTs process this sequence through a 3D unified attention[cite: 2]:
+      </p>
+      
+      <div class="math-block">
+        $$h := Attn(Q,K,V) = \text{softmax}(\frac{QK^\top}{\sqrt{d}})V$$
+      </div>
+      
+      <p>
+        where $Q$, $K$, and $V$ are query, key, and value representations with head dimension $d$, respectively[cite: 2]. In this design, each token attends to every other token across both space and time, thereby entangling appearance and temporal dynamics within a single attention matrix $A = \text{softmax}(\frac{QK^\top}{\sqrt{d}})$[cite: 2].
+      </p>
+
+      <h3>3.2. Decomposability of 3D unified attention</h3>
+      <p>
+        While the unified attention matrix $A$ offers greater modeling flexibility and has demonstrated superior generation quality, it raises a fundamental question: Does the unified attention implicitly recover the spatial-temporal factorization that UNet-based models impose explicitly?[cite: 2] We hypothesize that the answer is yes—that the unified attention implicitly recovers spatial-temporal factorization through the geometry of the attention matrix itself[cite: 2].
+      </p>
+      <p>
+        Intuitively, tokens within the same frame share a common temporal context and are more likely to attend to one another for local appearance coherence, whereas tokens across different frames should bridge temporal distance to capture motion and correspondence[cite: 2]. Motivated by this hypothesis, we decompose the attention matrix $A$ by token modality and focus on the vision-to-vision submatrix $A_{vis-vis}$, which governs all interactions among visual tokens[cite: 2]. Specifically, $A_{vis-vis}$ is partitioned into $F \times F$ frame-wise blocks, where each block $[A_{vis-vis}]_{i,j}$ captures attention from tokens in frame $i$ to those in frame $j$[cite: 2]. By construction, diagonal blocks ($i=j$) aggregate intra-frame token interactions, while off-diagonal blocks ($i \neq j$) aggregate inter-frame interactions—structurally analogous to spatial and temporal attention, respectively[cite: 2].
+      </p>
+
+      <!-- Motivation 피규어 이미지 -->
+      <img src="./asset/motivation.png" alt="Motivation: Functional Decomposition" class="pipeline-img">
+      <div class="caption" style="text-align: center; margin-bottom: 20px;">
+        <strong>Figure 2. Analysis of spatio-temporal attention.</strong> Intra-frame attention components (diagonal blocks) effectively localize the subject, while inter-frame attention components (off-diagonal blocks) capture motion dynamics[cite: 2].
+      </div>
+    </section>
+
     <!-- Method Section -->
     <section id="method">
       <h2>Methodology</h2>
       <p>
-        SA-V2V addresses the entangled nature of visual attributes in Video Diffusion Transformers (DiT) by leveraging a key structural insight: the spatio-temporal attention matrix functionally decomposes into <strong>intra-frame blocks</strong> (encoding spatial information) and <strong>inter-frame blocks</strong> (encoding motion dynamics). Based on this, our training-free framework introduces two primary guidance mechanisms:
+        Based on the motivation above, SA-V2V introduces two primary guidance mechanisms to enable independent control over motion, subject appearance, and background:
       </p>
       
       <ul style="margin-top: 15px; margin-bottom: 20px; padding-left: 20px; color: var(--text-color);">
@@ -432,10 +465,10 @@
         <li><strong>Target-aware Feature Guidance (Appearance Guidance):</strong> To isolate the subject from the background, we modulate the synthesized features using masked attention features obtained from both the custom subject image and the reference background. This allows strict adherence to the target identity while maintaining the original scene context.</li>
       </ul>
 
-      <!-- Pipeline Image Placeholder -->
+      <!-- Pipeline Image Placeholder (피규어 번호 3으로 변경) -->
       <img src="./asset/pipeline.png" alt="SA-V2V Pipeline Architecture" class="pipeline-img">
       <div class="caption" style="text-align: center;">
-        <strong>Figure 2. Full Architecture of SA-V2V.</strong> An overview of our disentangled guidance approach, showcasing the independent injection of inter-frame motion blocks and the Target-aware Feature Guidance (TFG) for localized appearance modulation.
+        <strong>Figure 3. Full Architecture of SA-V2V.</strong> An overview of our disentangled guidance approach, showcasing the independent injection of inter-frame motion blocks and the Target-aware Feature Guidance (TFG) for localized appearance modulation.
       </div>
     </section>
 
@@ -443,7 +476,7 @@
     <section id="citation">
       <h2>Acknowledgments</h2>
       <div class="acknowledgments">
-        This work was supported by the National Research Foundation of Korea (NRF) grant funded by the Korea government (MSIT) (RS-2024-00357197, RS-2024-00335741) and Korea Institute of Planning and Evaluation for Technology in Food, Agriculture and Forestry (IPET) through Companion Animal Intractable Disease Overcoming R$\&$D Project funded by Ministry of Agriculture, Food and Rural Affairs (MAFRA) (RS-2026-25529322).
+        This work was supported by the National Research Foundation of Korea (NRF) grant funded by the Korea government (MSIT) (RS-2024-00357197, RS-2024-00335741) and Korea Institute of Planning and Evaluation for Technology in Food, Agriculture and Forestry (IPET) through ---------------------- Program funded by Ministry of Agriculture, Food and Rural Affairs (MAFRA) (RS-2026-25529322).
       </div>
       
       <h2 style="margin-top: 40px;">BibTeX Citation</h2>
