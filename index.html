@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SA-V2V: Training-Free Subject-Aware Video-to-Video Personalization</title>
   
-  <!-- Google Fonts & FontAwesome Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- MathJax Configuration for Inline Math ($...$) -->
   <script>
     MathJax = {
       tex: {
@@ -18,7 +16,6 @@
     };
   </script>
   
-  <!-- MathJax for LaTeX Equations -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -333,13 +330,23 @@
       font-size: 0.85rem;
       color: var(--secondary-color);
     }
+
+    /* --- Custom Text Colors for Temporal & TFG --- */
+    .color-temporal {
+      color: #6F94F8; /* 파란색 블록 톤 */
+      font-weight: bold;
+    }
+    
+    .color-tfg {
+      color: #E87A7A; /* 빨간색 블록 톤 */
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
     
-    <!-- Hero Section -->
     <header class="hero">
       <h1>SA-V2V: Training-Free Subject-Aware<br>Video-to-Video Personalization</h1>
       <div class="venue">European Conference on Computer Vision (ECCV) 2026</div>
@@ -362,7 +369,6 @@
         <sup>*</sup>Corresponding authors
       </div>
 
-      <!-- Action Links -->
       <div class="links-btn">
         <a href="https://arxiv.org/" target="_blank"><i class="fa-solid fa-file-pdf"></i> Paper (arXiv)</a>
         <a href="https://github.com/ParkSoobin1219/SA-V2V" target="_blank"><i class="fa-brands fa-github"></i> Code</a>
@@ -370,10 +376,8 @@
       </div>
     </header>
 
-    <!-- Interactive Teaser Carousel (Figure 1 Main Results) -->
     <div class="teaser-carousel">
       
-      <!-- Set 1 -->
       <div class="carousel-slide active">
         <div class="compare-wrapper">
           <video class="video-base" src="./asset/personalized_1.mp4" autoplay loop muted playsinline></video>
@@ -386,7 +390,6 @@
         </div>
       </div>
 
-      <!-- Set 2 -->
       <div class="carousel-slide">
         <div class="compare-wrapper">
           <video class="video-base" src="./asset/personalized_2.mp4" autoplay loop muted playsinline></video>
@@ -399,7 +402,6 @@
         </div>
       </div>
 
-      <!-- Set 3 -->
       <div class="carousel-slide">
         <div class="compare-wrapper">
           <video class="video-base" src="./asset/personalized_3.mp4" autoplay loop muted playsinline></video>
@@ -412,28 +414,24 @@
         </div>
       </div>
 
-      <!-- 양옆 이동 화살표 -->
       <button class="nav-btn prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
       <button class="nav-btn next-btn"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
 
-    <!-- 전체 캡션 -->
     <div class="caption" style="text-align: center; max-width: 850px; margin: 0 auto 50px auto;">
       <strong>Figure 1. Overview of SA-V2V Main Results.</strong> We introduce SA-V2V, a novel training-free video personalization framework. Drag the vertical slider left and right to compare the raw input video and our personalized output. Use the arrows to navigate through different subject-aware generations.
     </div>
 
-    <!-- Abstract Section -->
     <section id="abstract">
       <h2>Abstract</h2>
       <div class="abstract-text">
-        Video personalization aims to generate personalized videos by preserving the motion and background of a reference video while transferring the subject appearance from a given subject image. Such video personalization has achieved tremendous progress alongside recent advancements in video diffusion transformers (DiT). Existing DiT-based approaches predominantly rely on training-based methods that require auxiliary control signals, while independent control over motion, subject appearance, and background remains challenging due to the entangled nature of the unified spatiotemporal attention mechanism. In this paper, we uncover a key structural insight that the spatio-temporal attention matrix of DiT exhibits an inherent functional decomposition—intra-frame blocks primarily encode spatial information, while inter-frame blocks encode motion dynamics. Building on this observation, we introduce <strong>SA-V2V</strong>, a novel training-free video personalization framework that disentangles and enables independent control over these visual attributes. We propose two guidance approaches: (1) For motion guidance, we present <strong>stochastic temporal injection</strong>, which leverages inter-frame attention maps to precisely control dynamic trajectories. (2) For appearance guidance, we propose a <strong>T</strong>arget-aware <strong>F</strong>eature <strong>G</strong>uidance to enable independent control over subject and background appearance by modulating the synthesized features with masked attention features from the subject image and the reference video, respectively. Extensive experiments demonstrate that the proposed SA-V2V significantly outperforms existing approaches in motion fidelity, subject adherence, and background preservation.
+        Video personalization aims to generate personalized videos by preserving the motion and background of a reference video while transferring the subject appearance from a given subject image. Such video personalization has achieved tremendous progress alongside recent advancements in video diffusion transformers (DiT). Existing DiT-based approaches predominantly rely on training-based methods that require auxiliary control signals, while independent control over motion, subject appearance, and background remains challenging due to the entangled nature of the unified spatiotemporal attention mechanism. In this paper, we uncover a key structural insight that the spatio-temporal attention matrix of DiT exhibits an inherent functional decomposition—intra-frame blocks primarily encode spatial information, while inter-frame blocks encode motion dynamics. Building on this observation, we introduce <strong>SA-V2V</strong>, a novel training-free video personalization framework that disentangles and enables independent control over these visual attributes. We propose two guidance approaches: (1) For motion guidance, we present <span class="color-temporal">stochastic temporal injection</span>, which leverages inter-frame attention maps to precisely control dynamic trajectories. (2) For appearance guidance, we propose a <span class="color-tfg">Target-aware Feature Guidance</span> to enable independent control over subject and background appearance by modulating the synthesized features with masked attention features from the subject image and the reference video, respectively. Extensive experiments demonstrate that the proposed SA-V2V significantly outperforms existing approaches in motion fidelity, subject adherence, and background preservation.
       </div>
     </section>
 
-    <!-- !!! NEWLY ADDED: Motivation Section !!! -->
     <section id="motivation">
       <h2>Motivation</h2>
-    
+      
       <h3>3D Unified Attention in DiT-based VDMs</h3>
       <p>
         DiT-based VDMs patchify a video latent into a flattened token sequence
@@ -441,11 +439,11 @@
         which is concatenated with text tokens and processed through a single
         <strong>3D unified attention</strong>:
       </p>
-    
+      
       <div class="math-block">
         $$h := \text{Attn}(Q, K, V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d}}\right)V$$
       </div>
-    
+      
       <p>
         Unlike UNet-based architectures that handle space and time through
         separate attention layers, this design lets every token attend to
@@ -456,7 +454,7 @@
         $A = \text{softmax}({QK^\top}/{\sqrt{d}})$,
         leaving no explicit handle for independent control over motion and appearance.
       </p>
-    
+      
       <h3>Does 3D Unified Attention Implicitly Recover Spatial–Temporal Structure?</h3>
       <p>
         We hypothesize the answer is <strong>yes</strong>.
@@ -466,7 +464,7 @@
         where block $[A_{vis\text{-}vis}]_{i,j}$ captures attention
         from tokens in frame $i$ to tokens in frame $j$:
       </p>
-    
+      
       <div class="math-block">
         $$A_{vis\text{-}vis} =
         \begin{bmatrix}
@@ -475,7 +473,7 @@
           [A]_{F,1} & \cdots & [A]_{F,F}
         \end{bmatrix}$$
       </div>
-    
+      
       <p>
         By construction, <strong>diagonal blocks</strong> ($i = j$) aggregate
         intra-frame token interactions—tokens attending within the same frame,
@@ -496,8 +494,7 @@
         These results confirm the <strong>functional decomposability</strong>
         of DiT's unified attention—the structural insight on which SA-V2V is built.
       </p>
-    
-      <!-- Motivation 피규어 이미지 -->
+      
       <img src="./asset/motivation.png" alt="Motivation: Functional Decomposition" class="pipeline-img">
       <div class="caption" style="text-align: center; margin-bottom: 20px;">
         <strong>Figure 2. Analysis of spatio-temporal attention.</strong>
@@ -505,11 +502,10 @@
         the subject, while inter-frame attention components (off-diagonal blocks)
         capture motion dynamics.
       </div>
-    
+      
     </section>
     
 
-    <!-- Method Section -->
     <section id="method">
       <h2>Methodology</h2>
       <p>
@@ -517,18 +513,16 @@
       </p>
       
       <ul style="margin-top: 15px; margin-bottom: 20px; padding-left: 20px; color: var(--text-color);">
-        <li style="margin-bottom: 10px;"><strong>Stochastic Temporal Injection (Motion Guidance):</strong> We extract inter-frame attention maps from the reference video and probabilistically inject them during the generative process, ensuring precise and robust control over dynamic trajectories without extra training.</li>
-        <li><strong>Target-aware Feature Guidance (Appearance Guidance):</strong> To isolate the subject from the background, we modulate the synthesized features using masked attention features obtained from both the custom subject image and the reference background. This allows strict adherence to the target identity while maintaining the original scene context.</li>
+        <li style="margin-bottom: 10px;"><strong class="color-temporal">Stochastic Temporal Injection (Motion Guidance):</strong> We extract inter-frame attention maps from the reference video and probabilistically inject them during the generative process, ensuring precise and robust control over dynamic trajectories without extra training.</li>
+        <li><strong class="color-tfg">Target-aware Feature Guidance (Appearance Guidance):</strong> To isolate the subject from the background, we modulate the synthesized features using masked attention features obtained from both the custom subject image and the reference background. This allows strict adherence to the target identity while maintaining the original scene context.</li>
       </ul>
 
-      <!-- Pipeline Image Placeholder (피규어 번호 3으로 변경) -->
       <img src="./asset/pipeline.gif" alt="SA-V2V Pipeline Architecture" class="pipeline-img">
       <div class="caption" style="text-align: center;">
-        <strong>Figure 3. Full Architecture of SA-V2V.</strong> An overview of our disentangled guidance approach, showcasing the independent injection of inter-frame motion blocks and the Target-aware Feature Guidance (TFG) for localized appearance modulation.
+        <strong>Figure 3. Full Architecture of SA-V2V.</strong> An overview of our disentangled guidance approach, showcasing the independent injection of inter-frame motion blocks and the <span class="color-tfg">Target-aware Feature Guidance (TFG)</span> for localized appearance modulation.
       </div>
     </section>
 
-    <!-- Acknowledgments & Citation Section -->
     <section id="citation">
       <h2>Acknowledgments</h2>
       <div class="acknowledgments">
@@ -544,14 +538,12 @@
 }</div>
     </section>
 
-    <!-- Footer -->
     <footer>
       <p>This project page is built using a single-file clean template. Layout inspired by Nerfies.</p>
     </footer>
 
   </div>
 
-  <!-- JavaScript for Interactive Carousel & Slider -->
   <script>
     // 1. Slider logic for comparing Before/After
     const sliders = document.querySelectorAll('.compare-slider');
