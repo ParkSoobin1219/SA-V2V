@@ -433,34 +433,81 @@
     <!-- !!! NEWLY ADDED: Motivation Section !!! -->
     <section id="motivation">
       <h2>Motivation</h2>
-      
-      <h3>3.1. Preliminary</h3>
+    
+      <h3>3D Unified Attention in DiT-based VDMs</h3>
       <p>
-        Given a video latent of shape $F \times H \times W \times C$ encoded by a 3D VAE, DiT-based VDMs patchify it with spatial patch size $p$, yielding sequence $z_{vis} \in \mathbb{R}^{(F \cdot \frac{HW}{p^2}) \times C}$[cite: 2]. The resulting vision tokens $Z_{vis}$ are concatenated with text tokens to form an input sequence of VDMs[cite: 2]. Unlike UNet-based architectures that decouple spatial and temporal modeling through separate attention layers, DiTs process this sequence through a 3D unified attention[cite: 2]:
+        DiT-based VDMs patchify a video latent into a flattened token sequence
+        $z_{vis} \in \mathbb{R}^{(F \cdot \frac{HW}{p^2}) \times C}$,
+        which is concatenated with text tokens and processed through a single
+        <strong>3D unified attention</strong>:
       </p>
-      
+    
       <div class="math-block">
-        $$h := Attn(Q,K,V) = \text{softmax}(\frac{QK^\top}{\sqrt{d}})V$$
+        $$h := \text{Attn}(Q, K, V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d}}\right)V$$
       </div>
-      
+    
       <p>
-        where $Q$, $K$, and $V$ are query, key, and value representations with head dimension $d$, respectively[cite: 2]. In this design, each token attends to every other token across both space and time, thereby entangling appearance and temporal dynamics within a single attention matrix $A = \text{softmax}(\frac{QK^\top}{\sqrt{d}})$[cite: 2].
+        Unlike UNet-based architectures that handle space and time through
+        separate attention layers, this design lets every token attend to
+        every other token across both space and time simultaneously.
+        The result is a dramatic improvement in generation quality—but at a cost:
+        spatial appearance and temporal dynamics become
+        <strong>entangled within a single attention matrix</strong>
+        $A = \text{softmax}({QK^\top}/{\sqrt{d}})$,
+        leaving no explicit handle for independent control over motion and appearance.
       </p>
-
-      <h3>3.2. Decomposability of 3D unified attention</h3>
+    
+      <h3>Does 3D Unified Attention Implicitly Recover Spatial–Temporal Structure?</h3>
       <p>
-        While the unified attention matrix $A$ offers greater modeling flexibility and has demonstrated superior generation quality, it raises a fundamental question: Does the unified attention implicitly recover the spatial-temporal factorization that UNet-based models impose explicitly?[cite: 2] We hypothesize that the answer is yes—that the unified attention implicitly recovers spatial-temporal factorization through the geometry of the attention matrix itself[cite: 2].
+        We hypothesize the answer is <strong>yes</strong>.
+        Consider the vision-to-vision submatrix $A_{vis\text{-}vis}$,
+        which governs all interactions among visual tokens.
+        We partition it into $F \times F$ frame-wise blocks,
+        where block $[A_{vis\text{-}vis}]_{i,j}$ captures attention
+        from tokens in frame $i$ to tokens in frame $j$:
+      </p>
+    
+      <div class="math-block">
+        $$A_{vis\text{-}vis} =
+        \begin{bmatrix}
+          [A]_{1,1} & \cdots & [A]_{1,F} \\
+          \vdots    & \ddots & \vdots    \\
+          [A]_{F,1} & \cdots & [A]_{F,F}
+        \end{bmatrix}$$
+      </div>
+    
+      <p>
+        By construction, <strong>diagonal blocks</strong> ($i = j$) aggregate
+        intra-frame token interactions—tokens attending within the same frame,
+        naturally encoding <strong>spatial appearance</strong>
+        ($\mathbf{A}_{spat}$).
+        <strong>Off-diagonal blocks</strong> ($i \neq j$) aggregate inter-frame
+        interactions—tokens bridging temporal distance to track motion and
+        correspondence ($\mathbf{A}_{temp}$).
+        This geometric structure suggests that the unified attention matrix
+        <em>implicitly</em> recovers the spatial–temporal factorization
+        that UNet-based models impose explicitly.
       </p>
       <p>
-        Intuitively, tokens within the same frame share a common temporal context and are more likely to attend to one another for local appearance coherence, whereas tokens across different frames should bridge temporal distance to capture motion and correspondence[cite: 2]. Motivated by this hypothesis, we decompose the attention matrix $A$ by token modality and focus on the vision-to-vision submatrix $A_{vis-vis}$, which governs all interactions among visual tokens[cite: 2]. Specifically, $A_{vis-vis}$ is partitioned into $F \times F$ frame-wise blocks, where each block $[A_{vis-vis}]_{i,j}$ captures attention from tokens in frame $i$ to those in frame $j$[cite: 2]. By construction, diagonal blocks ($i=j$) aggregate intra-frame token interactions, while off-diagonal blocks ($i \neq j$) aggregate inter-frame interactions—structurally analogous to spatial and temporal attention, respectively[cite: 2].
+        We verify this empirically on CogVideoX-5B.
+        Dense flow derived from $\mathbf{A}_{temp}$ shows strong correlation
+        with ground-truth optical flow (EPE), while attention maps from
+        $\mathbf{A}_{spat}$ exhibit clear alignment with subject masks (MSE).
+        These results confirm the <strong>functional decomposability</strong>
+        of DiT's unified attention—the structural insight on which SA-V2V is built.
       </p>
-
+    
       <!-- Motivation 피규어 이미지 -->
       <img src="./asset/motivation.png" alt="Motivation: Functional Decomposition" class="pipeline-img">
       <div class="caption" style="text-align: center; margin-bottom: 20px;">
-        <strong>Figure 2. Analysis of spatio-temporal attention.</strong> Intra-frame attention components (diagonal blocks) effectively localize the subject, while inter-frame attention components (off-diagonal blocks) capture motion dynamics[cite: 2].
+        <strong>Figure 2. Analysis of spatio-temporal attention.</strong>
+        Intra-frame attention components (diagonal blocks) effectively localize
+        the subject, while inter-frame attention components (off-diagonal blocks)
+        capture motion dynamics.
       </div>
+    
     </section>
+    
 
     <!-- Method Section -->
     <section id="method">
