@@ -131,8 +131,8 @@
     /* --- Interactive Carousel & Compare Slider --- */
     .teaser-carousel {
       position: relative;
-      max-width: 850px;
-      margin: 0 auto 20px auto;
+      max-width: 650px; /* 메인 결과 크기 축소 */
+      margin: 0 auto 30px auto;
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
@@ -151,7 +151,7 @@
     .compare-wrapper {
       position: relative;
       width: 100%;
-      line-height: 0; /* remove bottom gap for videos */
+      line-height: 0;
     }
 
     .video-base {
@@ -247,61 +247,85 @@
     .prev-btn { left: 10px; }
     .next-btn { right: 10px; }
 
-    .caption {
-      font-size: 0.95rem;
-      color: var(--secondary-color);
-      text-align: justify;
-      padding: 0 10px;
-      margin-bottom: 50px;
-    }
-
-    /* Main Sections */
+    /* New Section Styles */
     section {
-      padding: 40px 0;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    section:last-of-type {
-      border-bottom: none;
+      padding: 20px 0;
     }
 
     h2 {
       font-size: 1.8rem;
       font-weight: 700;
       color: var(--primary-color);
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+      text-align: center;
     }
 
-    h3 {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--primary-color);
-      margin-top: 20px;
-      margin-bottom: 15px;
+    hr {
+      border: 0;
+      height: 1px;
+      background: var(--border-color);
+      margin: 40px 0;
     }
 
-    .abstract-text {
+    .content-video {
+      width: 100%;
+      max-width: 850px;
+      display: block;
+      margin: 0 auto 25px auto;
+      border-radius: 12px;
+    }
+
+    .section-desc {
       font-size: 1.05rem;
       text-align: justify;
       color: var(--text-color);
+      max-width: 850px;
+      margin: 0 auto;
     }
 
-    /* Math Block Accent */
-    .math-block {
+    /* Abstract Callout */
+    .abstract-callout {
       background-color: var(--section-bg);
-      padding: 20px;
-      border-radius: 8px;
-      margin: 20px 0;
-      text-align: center;
-      font-size: 1.1rem;
-      overflow-x: auto;
+      padding: 30px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      text-align: justify;
+      color: var(--text-color);
+      margin: 40px auto;
+      max-width: 850px;
+      border: 1px solid var(--border-color);
     }
 
-    /* Method & Pipeline */
-    .pipeline-img {
-      width: 100%;
-      margin: 25px 0;
-      border-radius: 8px;
+    /* Switcher Buttons for Additional Results */
+    .switcher-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .sw-btn {
+      padding: 10px 20px;
+      border: 2px solid var(--border-color);
+      background: white;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      color: var(--secondary-color);
+    }
+    
+    .sw-btn:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+    
+    .sw-btn.active {
+      background: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
     }
 
     /* Citation / BibTeX & Acknowledgments */
@@ -321,7 +345,7 @@
       font-size: 0.95rem;
       color: var(--secondary-color);
       text-align: justify;
-      margin-top: 20px;
+      margin-bottom: 40px;
     }
 
     footer {
@@ -331,14 +355,17 @@
       color: var(--secondary-color);
     }
 
-    /* --- Custom Text Colors for Temporal & TFG --- */
-    .color-temporal {
-      color: #6F94F8; /* 파란색 블록 톤 */
+    /* --- Custom Text Colors --- */
+    .color-sav2v {
+      color: #1A73E8; /* 이쁜 파란색 */
       font-weight: bold;
     }
-    
-    .color-tfg {
-      color: #E87A7A; /* 빨간색 블록 톤 */
+    .color-temporal {
+      color: #0EA5E9; /* 하늘색 */
+      font-weight: bold;
+    }
+    .color-spatial {
+      color: #FF6B6B; /* 핑크와 주황 사이 코랄색 */
       font-weight: bold;
     }
   </style>
@@ -348,7 +375,7 @@
   <div class="container">
     
     <header class="hero">
-      <h1>SA-V2V: Training-Free Subject-Aware<br>Video-to-Video Personalization</h1>
+      <h1><span class="color-sav2v">SA-V2V</span>: Training-Free Subject-Aware<br>Video-to-Video Personalization</h1>
       <div class="venue">European Conference on Computer Vision (ECCV) 2026</div>
       
       <div class="authors">
@@ -418,111 +445,69 @@
       <button class="nav-btn next-btn"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
 
-    <div class="caption" style="text-align: center; max-width: 850px; margin: 0 auto 50px auto;">
-      <strong>Figure 1. Overview of SA-V2V Main Results.</strong> We introduce SA-V2V, a novel training-free video personalization framework. Drag the vertical slider left and right to compare the raw input video and our personalized output. Use the arrows to navigate through different subject-aware generations.
+    <div class="abstract-callout">
+      <h2 style="margin-bottom: 15px; font-size: 1.5rem;">Abstract</h2>
+      Video personalization aims to generate personalized videos by preserving the motion and background of a reference video while transferring the subject appearance from a given subject image. Such video personalization has achieved tremendous progress alongside recent advancements in video diffusion transformers (DiT). Existing DiT-based approaches predominantly rely on training-based methods that require auxiliary control signals, while independent control over motion, subject appearance, and background remains challenging due to the entangled nature of the unified spatiotemporal attention mechanism. In this paper, we uncover a key structural insight that the spatio-temporal attention matrix of DiT exhibits an inherent functional decomposition—intra-frame blocks primarily encode spatial information, while inter-frame blocks encode motion dynamics. Building on this observation, we introduce <span class="color-sav2v">SA-V2V</span>, a novel training-free video personalization framework that disentangles and enables independent control over these visual attributes. We propose two guidance approaches: (1) For motion guidance, we present <span class="color-temporal">stochastic temporal injection</span>, which leverages inter-frame attention maps to precisely control dynamic trajectories. (2) For appearance guidance, we propose a <span class="color-spatial">Target-aware Feature Guidance</span> to enable independent control over subject and background appearance by modulating the synthesized features with masked attention features from the subject image and the reference video, respectively. Extensive experiments demonstrate that the proposed <span class="color-sav2v">SA-V2V</span> significantly outperforms existing approaches in motion fidelity, subject adherence, and background preservation.
     </div>
 
-    <section id="abstract">
-      <h2>Abstract</h2>
-      <div class="abstract-text">
-        Video personalization aims to generate personalized videos by preserving the motion and background of a reference video while transferring the subject appearance from a given subject image. Such video personalization has achieved tremendous progress alongside recent advancements in video diffusion transformers (DiT). Existing DiT-based approaches predominantly rely on training-based methods that require auxiliary control signals, while independent control over motion, subject appearance, and background remains challenging due to the entangled nature of the unified spatiotemporal attention mechanism. In this paper, we uncover a key structural insight that the spatio-temporal attention matrix of DiT exhibits an inherent functional decomposition—intra-frame blocks primarily encode spatial information, while inter-frame blocks encode motion dynamics. Building on this observation, we introduce <strong>SA-V2V</strong>, a novel training-free video personalization framework that disentangles and enables independent control over these visual attributes. We propose two guidance approaches: (1) For motion guidance, we present <span class="color-temporal">stochastic temporal injection</span>, which leverages inter-frame attention maps to precisely control dynamic trajectories. (2) For appearance guidance, we propose a <span class="color-tfg">Target-aware Feature Guidance</span> to enable independent control over subject and background appearance by modulating the synthesized features with masked attention features from the subject image and the reference video, respectively. Extensive experiments demonstrate that the proposed SA-V2V significantly outperforms existing approaches in motion fidelity, subject adherence, and background preservation.
-      </div>
+    <hr>
+
+    <section>
+      <h2>Key Observation: Decomposability of 3D Attention in DiTs</h2>
+      <video src="./asset/attn.mp4" class="content-video" autoplay loop muted playsinline></video>
+      <p class="section-desc">
+        We discovered the decomposability of 3D unified attention in DiTs. <span class="color-spatial">Diagonal blocks</span> model <span class="color-spatial">intra-frame correlation</span> to capture <span class="color-spatial">spatial structure</span>, while <span class="color-temporal">off-diagonal blocks</span> model <span class="color-temporal">inter-frame correlation</span> to capture <span class="color-temporal">temporal motion</span> information. Based on this attention decomposability, <span class="color-sav2v">SA-V2V</span> achieves training-free video personalization by performing attention feature modulation.
+      </p>
     </section>
 
-    <section id="motivation">
-      <h2>Motivation</h2>
-      
-      <h3>3D Unified Attention in DiT-based VDMs</h3>
-      <p>
-        DiT-based VDMs patchify a video latent into a flattened token sequence
-        $z_{vis} \in \mathbb{R}^{(F \cdot \frac{HW}{p^2}) \times C}$,
-        which is concatenated with text tokens and processed through a single
-        <strong>3D unified attention</strong>:
-      </p>
-      
-      <div class="math-block">
-        $$h := \text{Attn}(Q, K, V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d}}\right)V$$
-      </div>
-      
-      <p>
-        Unlike UNet-based architectures that handle space and time through
-        separate attention layers, this design lets every token attend to
-        every other token across both space and time simultaneously.
-        The result is a dramatic improvement in generation quality—but at a cost:
-        spatial appearance and temporal dynamics become
-        <strong>entangled within a single attention matrix</strong>
-        $A = \text{softmax}({QK^\top}/{\sqrt{d}})$,
-        leaving no explicit handle for independent control over motion and appearance.
-      </p>
-      
-      <h3>Does 3D Unified Attention Implicitly Recover Spatial–Temporal Structure?</h3>
-      <p>
-        We hypothesize the answer is <strong>yes</strong>.
-        Consider the vision-to-vision submatrix $A_{vis\text{-}vis}$,
-        which governs all interactions among visual tokens.
-        We partition it into $F \times F$ frame-wise blocks,
-        where block $[A_{vis\text{-}vis}]_{i,j}$ captures attention
-        from tokens in frame $i$ to tokens in frame $j$:
-      </p>
-      
-      <img src="./asset/attn.png" alt="attn: Functional Decomposition" class="pipeline-img">
-      
-      <p>
-        By construction, <strong>diagonal blocks</strong> ($i = j$) aggregate
-        intra-frame token interactions—tokens attending within the same frame,
-        naturally encoding <strong>spatial appearance</strong>
-        ($\mathbf{A}_{spat}$).
-        <strong>Off-diagonal blocks</strong> ($i \neq j$) aggregate inter-frame
-        interactions—tokens bridging temporal distance to track motion and
-        correspondence ($\mathbf{A}_{temp}$).
-        This geometric structure suggests that the unified attention matrix
-        <em>implicitly</em> recovers the spatial–temporal factorization
-        that UNet-based models impose explicitly.
-      </p>
-      <p>
-        We verify this empirically on CogVideoX-5B.
-        Dense flow derived from $\mathbf{A}_{temp}$ shows strong correlation
-        with ground-truth optical flow (EPE), while attention maps from
-        $\mathbf{A}_{spat}$ exhibit clear alignment with subject masks (MSE).
-        These results confirm the <strong>functional decomposability</strong>
-        of DiT's unified attention—the structural insight on which SA-V2V is built.
-      </p>
-      
-      <img src="./asset/motivation.png" alt="Motivation: Functional Decomposition" class="pipeline-img">
-      <div class="caption" style="text-align: center; margin-bottom: 20px;">
-        <strong>Figure 2. Analysis of spatio-temporal attention.</strong>
-        Intra-frame attention components (diagonal blocks) effectively localize
-        the subject, while inter-frame attention components (off-diagonal blocks)
-        capture motion dynamics.
-      </div>
-      
-    </section>
-    
+    <hr>
 
-    <section id="method">
-      <h2>Methodology</h2>
-      <p>
-        Based on the motivation above, SA-V2V introduces two primary guidance mechanisms to enable independent control over motion, subject appearance, and background:
+    <section>
+      <h2>Experimental Verification</h2>
+      <video src="./asset/experiment.mp4" class="content-video" autoplay loop muted playsinline></video>
+      <p class="section-desc">
+        As shown in the results, <span class="color-temporal">temporal attention</span> matches the optical flow to capture <span class="color-temporal">temporal motion dynamics</span>, while <span class="color-spatial">spatial attention</span> matches the subject mask to capture <span class="color-spatial">spatial structure</span>.
       </p>
-      
-      <ul style="margin-top: 15px; margin-bottom: 20px; padding-left: 20px; color: var(--text-color);">
-        <li style="margin-bottom: 10px;"><strong class="color-temporal">Stochastic Temporal Injection (Motion Guidance):</strong> We extract inter-frame attention maps from the reference video and probabilistically inject them during the generative process, ensuring precise and robust control over dynamic trajectories without extra training.</li>
-        <li><strong class="color-tfg">Target-aware Feature Guidance (Appearance Guidance):</strong> To isolate the subject from the background, we modulate the synthesized features using masked attention features obtained from both the custom subject image and the reference background. This allows strict adherence to the target identity while maintaining the original scene context.</li>
-      </ul>
-
-      <img src="./asset/pipeline.gif" alt="SA-V2V Pipeline Architecture" class="pipeline-img">
-      <div class="caption" style="text-align: center;">
-        <strong>Figure 3. Full Architecture of SA-V2V.</strong> An overview of our disentangled guidance approach, showcasing the independent injection of inter-frame motion blocks and the <span class="color-tfg">Target-aware Feature Guidance (TFG)</span> for localized appearance modulation.
-      </div>
     </section>
+
+    <hr>
+
+    <section>
+      <h2><span class="color-sav2v">SA-V2V</span> Pipeline</h2>
+      <video src="./asset/pipeline.mp4" class="content-video" autoplay loop muted playsinline></video>
+      <p class="section-desc">
+        <span class="color-sav2v">SA-V2V</span> appropriately blends the <span class="color-temporal">temporal attention</span> and <span class="color-spatial">appearance attention</span> features of the reference video and subject image into the attention features of the personalized video. During this generation process, it operates entirely training-free, without the need for fine-tuning, inversion, or additional control signals.
+      </p>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Additional Results</h2>
+      
+      <div class="switcher-buttons">
+        <button class="sw-btn active" data-src="./asset/additional_1.png">Result 1</button>
+        <button class="sw-btn" data-src="./asset/additional_2.png">Result 2</button>
+        <button class="sw-btn" data-src="./asset/additional_3.png">Result 3</button>
+        <button class="sw-btn" data-src="./asset/additional_4.png">Result 4</button>
+      </div>
+      
+      <img id="additional-img" src="./asset/additional_1.png" alt="Additional Results" class="content-video" style="border: 1px solid var(--border-color);">
+      
+      <p class="section-desc">
+        Compared to various training-based and training-free baselines, <span class="color-sav2v">SA-V2V</span> demonstrates significantly superior performance in preserving subject identity and temporal consistency.
+      </p>
+    </section>
+
+    <hr>
 
     <section id="citation">
-      <h2>Acknowledgments</h2>
+      <h2 style="text-align: left;">Acknowledgments</h2>
       <div class="acknowledgments">
         This work was supported by the National Research Foundation of Korea (NRF) grant funded by the Korea government (MSIT) (RS-2024-00357197, RS-2024-00335741) and Korea Institute of Planning and Evaluation for Technology in Food, Agriculture and Forestry (IPET) through Companion Animal Intractable Disease Overcoming R$\&$D Project funded by Ministry of Agriculture, Food and Rural Affairs (MAFRA) (RS-2026-25529322).
       </div>
       
-      <h2>BibTeX Citation</h2>
+      <h2 style="text-align: left;">BibTeX Citation</h2>
       <div class="citation-box">@inproceedings{park2026sav2v,
   title={SA-V2V: Training-Free Subject-Aware Video-to-Video Personalization},
   author={Park, Soobin and Yoo, Seohyeon and Kim, Jiwon and Kim, SeonHwa and Jin, Kyong Hwan and Cha, Eunju},
@@ -592,6 +577,20 @@
     nextBtn.addEventListener('click', () => {
       currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
       showSlide(currentIndex);
+    });
+
+    // 3. Switcher logic for Additional Results
+    const swBtns = document.querySelectorAll('.sw-btn');
+    const addImg = document.getElementById('additional-img');
+    swBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // 모든 버튼에서 active 클래스 제거
+        swBtns.forEach(b => b.classList.remove('active'));
+        // 클릭된 버튼에 active 클래스 추가
+        btn.classList.add('active');
+        // 이미지 src 변경
+        addImg.src = btn.getAttribute('data-src');
+      });
     });
   </script>
 </body>
