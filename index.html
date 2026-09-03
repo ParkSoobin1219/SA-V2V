@@ -131,7 +131,7 @@
     /* --- Interactive Carousel & Compare Slider --- */
     .teaser-carousel {
       position: relative;
-      max-width: 650px; /* 메인 결과 크기 축소 */
+      max-width: 650px; 
       margin: 0 auto 30px auto;
       border-radius: 12px;
       overflow: hidden;
@@ -296,13 +296,13 @@
       border: 1px solid var(--border-color);
     }
 
-    /* Switcher Buttons for Additional Results */
+    /* Switcher Buttons (Shared style) */
     .switcher-buttons {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
     
     .sw-btn {
@@ -326,6 +326,35 @@
       background: var(--accent-color);
       color: white;
       border-color: var(--accent-color);
+    }
+
+    /* --- Experimental Grid Layout (2 GIFs side-by-side) --- */
+    .exp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 850px;
+      margin: 0 auto 25px auto;
+    }
+
+    @media (max-width: 768px) {
+      .exp-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .exp-item img, .exp-item video {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .exp-label {
+      text-align: center;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: var(--text-color);
+      font-size: 0.95rem;
     }
 
     /* Citation / BibTeX & Acknowledgments */
@@ -357,15 +386,15 @@
 
     /* --- Custom Text Colors --- */
     .color-sav2v {
-      color: #1A73E8; /* 이쁜 파란색 */
+      color: #1A73E8; 
       font-weight: bold;
     }
     .color-temporal {
-      color: #0EA5E9; /* 하늘색 */
+      color: #0EA5E9; 
       font-weight: bold;
     }
     .color-spatial {
-      color: #FF6B6B; /* 핑크와 주황 사이 코랄색 */
+      color: #FF6B6B; 
       font-weight: bold;
     }
   </style>
@@ -445,6 +474,10 @@
       <button class="nav-btn next-btn"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
 
+    <div class="caption" style="text-align: center; max-width: 850px; margin: 0 auto 50px auto;">
+      <strong>Figure 1. Overview of SA-V2V Main Results.</strong> We introduce SA-V2V, a novel training-free video personalization framework. Drag the vertical slider left and right to compare the raw input video and our personalized output. Use the arrows to navigate through different subject-aware generations.
+    </div>
+
     <div class="abstract-callout">
       <h2 style="margin-bottom: 15px; font-size: 1.5rem;">Abstract</h2>
       Video personalization aims to generate personalized videos by preserving the motion and background of a reference video while transferring the subject appearance from a given subject image. Such video personalization has achieved tremendous progress alongside recent advancements in video diffusion transformers (DiT). Existing DiT-based approaches predominantly rely on training-based methods that require auxiliary control signals, while independent control over motion, subject appearance, and background remains challenging due to the entangled nature of the unified spatiotemporal attention mechanism. In this paper, we uncover a key structural insight that the spatio-temporal attention matrix of DiT exhibits an inherent functional decomposition—intra-frame blocks primarily encode spatial information, while inter-frame blocks encode motion dynamics. Building on this observation, we introduce <span class="color-sav2v">SA-V2V</span>, a novel training-free video personalization framework that disentangles and enables independent control over these visual attributes. We propose two guidance approaches: (1) For motion guidance, we present <span class="color-temporal">stochastic temporal injection</span>, which leverages inter-frame attention maps to precisely control dynamic trajectories. (2) For appearance guidance, we propose a <span class="color-spatial">Target-aware Feature Guidance</span> to enable independent control over subject and background appearance by modulating the synthesized features with masked attention features from the subject image and the reference video, respectively. Extensive experiments demonstrate that the proposed <span class="color-sav2v">SA-V2V</span> significantly outperforms existing approaches in motion fidelity, subject adherence, and background preservation.
@@ -464,7 +497,24 @@
 
     <section>
       <h2>Experimental Verification</h2>
-      <video src="./asset/experiment.mp4" class="content-video" autoplay loop muted playsinline></video>
+      
+      <div class="switcher-buttons">
+        <button class="sw-btn exp-btn active" data-temp="./asset/exp_temp_1.gif" data-spat="./asset/exp_spat_1.gif">Sample 1</button>
+        <button class="sw-btn exp-btn" data-temp="./asset/exp_temp_2.gif" data-spat="./asset/exp_spat_2.gif">Sample 2</button>
+        <button class="sw-btn exp-btn" data-temp="./asset/exp_temp_3.gif" data-spat="./asset/exp_spat_3.gif">Sample 3</button>
+      </div>
+
+      <div class="exp-grid">
+        <div class="exp-item">
+          <div class="exp-label"><span class="color-temporal">Temporal Attention</span> vs Optical Flow</div>
+          <img id="exp-temp-img" src="./asset/exp_temp_1.gif" alt="Temporal Attention Comparison">
+        </div>
+        <div class="exp-item">
+          <div class="exp-label"><span class="color-spatial">Spatial Attention</span> vs Subject Mask</div>
+          <img id="exp-spat-img" src="./asset/exp_spat_1.gif" alt="Spatial Attention Comparison">
+        </div>
+      </div>
+      
       <p class="section-desc">
         As shown in the results, <span class="color-temporal">temporal attention</span> matches the optical flow to capture <span class="color-temporal">temporal motion dynamics</span>, while <span class="color-spatial">spatial attention</span> matches the subject mask to capture <span class="color-spatial">spatial structure</span>.
       </p>
@@ -483,13 +533,13 @@
     <hr>
 
     <section>
-      <h2>Qualitative Comparison</h2>
+      <h2>Additional Results</h2>
       
       <div class="switcher-buttons">
-        <button class="sw-btn active" data-src="./asset/additional_1.png">Result 1</button>
-        <button class="sw-btn" data-src="./asset/additional_2.png">Result 2</button>
-        <button class="sw-btn" data-src="./asset/additional_3.png">Result 3</button>
-        <button class="sw-btn" data-src="./asset/additional_4.png">Result 4</button>
+        <button class="sw-btn add-btn active" data-src="./asset/additional_1.png">Result 1</button>
+        <button class="sw-btn add-btn" data-src="./asset/additional_2.png">Result 2</button>
+        <button class="sw-btn add-btn" data-src="./asset/additional_3.png">Result 3</button>
+        <button class="sw-btn add-btn" data-src="./asset/additional_4.png">Result 4</button>
       </div>
       
       <img id="additional-img" src="./asset/additional_1.png" alt="Additional Results" class="content-video" style="border: 1px solid var(--border-color);">
@@ -549,7 +599,6 @@
         const videos = slide.querySelectorAll('video');
         if (i === index) {
           slide.classList.add('active');
-          // Reset slider UI
           const sliderInput = slide.querySelector('.compare-slider');
           const overlay = slide.querySelector('.video-overlay');
           const line = slide.querySelector('.slider-line');
@@ -558,7 +607,6 @@
              overlay.style.clipPath = `polygon(0 0, 50% 0, 50% 100%, 0 100%)`;
              line.style.left = `50%`;
           }
-          // Play active videos from the start
           videos.forEach(v => {
             v.currentTime = 0;
             v.play();
@@ -579,16 +627,28 @@
       showSlide(currentIndex);
     });
 
-    // 3. Switcher logic for Additional Results
-    const swBtns = document.querySelectorAll('.sw-btn');
-    const addImg = document.getElementById('additional-img');
-    swBtns.forEach(btn => {
+    // 3. Switcher logic for Experimental Verification (2 GIFs side-by-side)
+    const expBtns = document.querySelectorAll('.exp-btn');
+    const expTempImg = document.getElementById('exp-temp-img');
+    const expSpatImg = document.getElementById('exp-spat-img');
+    
+    expBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        // 모든 버튼에서 active 클래스 제거
-        swBtns.forEach(b => b.classList.remove('active'));
-        // 클릭된 버튼에 active 클래스 추가
+        expBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        // 이미지 src 변경
+        expTempImg.src = btn.getAttribute('data-temp');
+        expSpatImg.src = btn.getAttribute('data-spat');
+      });
+    });
+
+    // 4. Switcher logic for Additional Results
+    const addBtns = document.querySelectorAll('.add-btn');
+    const addImg = document.getElementById('additional-img');
+    
+    addBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        addBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
         addImg.src = btn.getAttribute('data-src');
       });
     });
